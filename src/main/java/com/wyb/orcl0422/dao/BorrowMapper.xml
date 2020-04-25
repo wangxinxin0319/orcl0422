@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wyb.orcl0422.dao.BorrowMapper" >
+  <resultMap id="BaseResultMap" type="com.wyb.orcl0422.pojo.Borrow" >
+    <result column="BORROW_ID" property="borrowId" jdbcType="VARCHAR" />
+    <result column="B_ID" property="bId" jdbcType="VARCHAR" />
+    <result column="BORROW_TIME" property="borrowTime" jdbcType="TIMESTAMP" />
+    <result column="USER_ID" property="userId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    BORROW_ID, B_ID, BORROW_TIME, USER_ID
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.wyb.orcl0422.pojo.BorrowExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from BORROW
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.wyb.orcl0422.pojo.BorrowExample" >
+    delete from BORROW
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.wyb.orcl0422.pojo.Borrow" >
+    insert into BORROW (BORROW_ID, B_ID, BORROW_TIME, 
+      USER_ID)
+    values (#{borrowId,jdbcType=VARCHAR}, #{bId,jdbcType=VARCHAR}, #{borrowTime,jdbcType=TIMESTAMP}, 
+      #{userId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wyb.orcl0422.pojo.Borrow" >
+    insert into BORROW
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="borrowId != null" >
+        BORROW_ID,
+      </if>
+      <if test="bId != null" >
+        B_ID,
+      </if>
+      <if test="borrowTime != null" >
+        BORROW_TIME,
+      </if>
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="borrowId != null" >
+        #{borrowId,jdbcType=VARCHAR},
+      </if>
+      <if test="bId != null" >
+        #{bId,jdbcType=VARCHAR},
+      </if>
+      <if test="borrowTime != null" >
+        #{borrowTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.wyb.orcl0422.pojo.BorrowExample" resultType="java.lang.Integer" >
+    select count(*) from BORROW
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+    <select id="list" resultType="com.wyb.orcl0422.vo.BorrowVo">
+      select b.BORROW_TIME as borrowTime,B2. B_NAME as bookName,
+       u.NAME as userName from BORROW b
+       join BOOK B2 on b.B_ID = B2.B_ID  join T_USER u on u.ID=b.USER_ID
+       where b.B_ID=#{bId}
+    </select>
+    <update id="updateByExampleSelective" parameterType="map" >
+    update BORROW
+    <set >
+      <if test="record.borrowId != null" >
+        BORROW_ID = #{record.borrowId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bId != null" >
+        B_ID = #{record.bId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.borrowTime != null" >
+        BORROW_TIME = #{record.borrowTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.userId != null" >
+        USER_ID = #{record.userId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update BORROW
+    set BORROW_ID = #{record.borrowId,jdbcType=VARCHAR},
+      B_ID = #{record.bId,jdbcType=VARCHAR},
+      BORROW_TIME = #{record.borrowTime,jdbcType=TIMESTAMP},
+      USER_ID = #{record.userId,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

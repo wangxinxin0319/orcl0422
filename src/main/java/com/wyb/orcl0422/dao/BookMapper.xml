@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wyb.orcl0422.dao.BookMapper" >
+  <resultMap id="BaseResultMap" type="com.wyb.orcl0422.pojo.Book" >
+    <result column="B_ID" property="bId" jdbcType="VARCHAR" />
+    <result column="B_NAME" property="bName" jdbcType="VARCHAR" />
+    <result column="B_INTRODUCE" property="bIntroduce" jdbcType="VARCHAR" />
+    <result column="B_AUTHOR" property="bAuthor" jdbcType="VARCHAR" />
+    <result column="COUNT" property="count" jdbcType="DECIMAL" />
+    <result column="BORROW_FLAG" property="borrowFlag" jdbcType="DECIMAL" />
+    <result column="PIC_URL" property="picUrl" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    B_ID, B_NAME, B_INTRODUCE, B_AUTHOR, COUNT, BORROW_FLAG, PIC_URL
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.wyb.orcl0422.pojo.BookExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from BOOK
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.wyb.orcl0422.pojo.BookExample" >
+    delete from BOOK
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.wyb.orcl0422.pojo.Book" >
+    insert into BOOK (B_ID, B_NAME, B_INTRODUCE, 
+      B_AUTHOR, COUNT, BORROW_FLAG, 
+      PIC_URL)
+    values (#{bId,jdbcType=VARCHAR}, #{bName,jdbcType=VARCHAR}, #{bIntroduce,jdbcType=VARCHAR}, 
+      #{bAuthor,jdbcType=VARCHAR}, #{count,jdbcType=DECIMAL}, #{borrowFlag,jdbcType=DECIMAL}, 
+      #{picUrl,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wyb.orcl0422.pojo.Book" >
+    insert into BOOK
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="bId != null" >
+        B_ID,
+      </if>
+      <if test="bName != null" >
+        B_NAME,
+      </if>
+      <if test="bIntroduce != null" >
+        B_INTRODUCE,
+      </if>
+      <if test="bAuthor != null" >
+        B_AUTHOR,
+      </if>
+      <if test="count != null" >
+        COUNT,
+      </if>
+      <if test="borrowFlag != null" >
+        BORROW_FLAG,
+      </if>
+      <if test="picUrl != null" >
+        PIC_URL,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="bId != null" >
+        #{bId,jdbcType=VARCHAR},
+      </if>
+      <if test="bName != null" >
+        #{bName,jdbcType=VARCHAR},
+      </if>
+      <if test="bIntroduce != null" >
+        #{bIntroduce,jdbcType=VARCHAR},
+      </if>
+      <if test="bAuthor != null" >
+        #{bAuthor,jdbcType=VARCHAR},
+      </if>
+      <if test="count != null" >
+        #{count,jdbcType=DECIMAL},
+      </if>
+      <if test="borrowFlag != null" >
+        #{borrowFlag,jdbcType=DECIMAL},
+      </if>
+      <if test="picUrl != null" >
+        #{picUrl,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.wyb.orcl0422.pojo.BookExample" resultType="java.lang.Integer" >
+    select count(*) from BOOK
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+    <select id="selectAll" resultType="com.wyb.orcl0422.vo.Vo" parameterType="map">
+     select   b.B_ID as bId,
+       B_NAME as bName,
+       B_INTRODUCE as bIntroduce, B_AUTHOR as bAuthor,
+       COUNT, BORROW_FLAG as borrowFlag,
+       PIC_URL as picUrl,b2.BORROW_ID as borrowId, BORROW_TIME as borrowTime,
+       USER_ID as userId from BOOK b join BORROW B2 on b.B_ID = B2.B_ID
+       where BORROW_TIME in (select max(BORROW_TIME) from BORROW group by B_ID)
+       <if test="bName!=null and bName!=''">
+           and B_NAME like concat(concat('%',#{bName}),'%')
+       </if>
+        <if test="time1!=null and time1!=''and time2!=null and time2!=''">
+            and BORROW_TIME between #{time1} and #{time2}
+        </if>
+    </select>
+    <select id="selectById" resultMap="BaseResultMap">
+      select * from book where B_ID=#{bId}
+    </select>
+    <select id="selectBookInfo" resultType="com.wyb.orcl0422.vo.DianjiVo">
+      select b.B_ID as bId, B_NAME as bookName, B_INTRODUCE as bookIntroduce, B_AUTHOR as bookAuthor,
+       COUNT as borrowingCount, BORROW_FLAG as borrowingFlag, PIC_URL as picUrl,
+       d.TRAFFIC as traffic from book b join DIANJI D on b.B_ID = D.B_ID
+       where b.B_ID=#{bId}
+    </select>
+    <update id="updateByExampleSelective" parameterType="map" >
+    update BOOK
+    <set >
+      <if test="record.bId != null" >
+        B_ID = #{record.bId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bName != null" >
+        B_NAME = #{record.bName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bIntroduce != null" >
+        B_INTRODUCE = #{record.bIntroduce,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bAuthor != null" >
+        B_AUTHOR = #{record.bAuthor,jdbcType=VARCHAR},
+      </if>
+      <if test="record.count != null" >
+        COUNT = #{record.count,jdbcType=DECIMAL},
+      </if>
+      <if test="record.borrowFlag != null" >
+        BORROW_FLAG = #{record.borrowFlag,jdbcType=DECIMAL},
+      </if>
+      <if test="record.picUrl != null" >
+        PIC_URL = #{record.picUrl,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update BOOK
+    set B_ID = #{record.bId,jdbcType=VARCHAR},
+      B_NAME = #{record.bName,jdbcType=VARCHAR},
+      B_INTRODUCE = #{record.bIntroduce,jdbcType=VARCHAR},
+      B_AUTHOR = #{record.bAuthor,jdbcType=VARCHAR},
+      COUNT = #{record.count,jdbcType=integer},
+      BORROW_FLAG = #{record.borrowFlag,jdbcType=integer},
+      PIC_URL = #{record.picUrl,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateBybId">
+    update BOOK set B_AUTHOR=#{bAuthor},B_INTRODUCE=#{bIntroduce},
+    B_NAME=#{bName},BORROW_FLAG=#{borrowFlag},COUNT=#{count},
+    PIC_URL=#{picUrl} where B_ID=#{bId}
+  </update>
+  <update id="updateBook"></update>
+
+</mapper>
