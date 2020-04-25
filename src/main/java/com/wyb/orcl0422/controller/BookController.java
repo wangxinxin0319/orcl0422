@@ -100,6 +100,7 @@ public class BookController {
         if (file.getSize() > 0) { //对图片 进行上传并且赋值
             String picUrl = uploadUtils.uploadUtils(file, filePath);
             book.setPicUrl(picUrl);
+
         }
         bookService.save(book, session);
         return "redirect:/book/queryBookList";
